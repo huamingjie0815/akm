@@ -1,6 +1,6 @@
 {
   "name": "apikey-manage",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "CLI tool to manage LLM API profiles - store and manage base URLs, providers, models, and API keys",
   "main": "dist/index.js",
   "bin": {
