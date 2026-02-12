@@ -1,0 +1,44 @@
+{
+  "name": "apikey-manage",
+  "version": "1.0.0",
+  "description": "CLI tool to manage LLM API profiles - store and manage base URLs, providers, models, and API keys",
+  "main": "dist/index.js",
+  "bin": {
+    "apikey-manage": "dist/index.js",
+    "akm": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/cli/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "clean": "rm -rf dist"
+  },
+  "keywords": [
+    "cli",
+    "llm",
+    "api",
+    "key",
+    "profile",
+    "openai",
+    "anthropic",
+    "management"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/inquirer": "^9.0.9",
+    "@types/node": "^25.2.3",
+    "@vitest/ui": "^4.0.18",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.18"
+  },
+  "dependencies": {
+    "@inquirer/prompts": "^8.2.0",
+    "chalk": "^4.1.2",
+    "commander": "^14.0.3",
+    "inquirer": "^9.2.12",
+    "ora": "^5.4.1",
+    "zod": "^4.3.6"
+  }
+}
