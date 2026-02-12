@@ -1,154 +1,291 @@
 # API Key Manage (akm)
 
-一个轻量级的 CLI 工具，用于管理大模型 API 的配置信息（profile）。支持添加、查看、更新、删除 profile 配置。
+[![npm version](https://img.shields.io/npm/v/apikey-manage.svg)](https://www.npmjs.com/package/apikey-manage)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## 功能特性
+**[English](README.md) | [中文](README.zh-CN.md)**
 
-- ✨ **交互式配置** - 通过友好的交互式提示快速创建 profile
-- 🔐 **安全存储** - 本地 JSON 文件存储，支持可选的 API Key 加密
-- 🎨 **多提供商支持** - OpenAI、Anthropic、Azure、Google、Groq 及自定义提供商
-- 📋 **完整 CRUD** - 创建、读取、更新、删除 profiles
-- ⚡ **快速切换** - 设置默认 profile，快速切换不同配置
-- 🛡️ **自动备份** - 修改前自动创建备份，防止数据丢失
+A lightweight CLI tool for managing LLM API configuration profiles. Supports multiple providers including OpenAI, Anthropic, Azure, Google, Groq, and custom providers.
 
-## 安装
+---
+
+## 🚀 Quick Start
 
 ```bash
+# Install globally
 npm install -g apikey-manage
+
+# Or use with npx (no installation required)
+npx apikey-manage <command>
 ```
 
-安装后，可以使用 `apikey-manage` 或简写 `akm` 命令。
-
-## 快速开始
+### Basic Usage
 
 ```bash
-# 添加一个新的 profile（交互式）
+# Add a new profile (interactive mode)
 akm add
 
-# 列出所有 profiles
+# List all profiles
 akm list
 
-# 查看特定 profile 详情
+# Show profile details
 akm show my-openai
 
-# 更新 profile
+# Update profile
 akm update my-openai --model gpt-4-turbo
 
-# 设置默认 profile
+# Set default profile
 akm default my-openai
 
-# 删除 profile
+# Remove profile
 akm remove my-openai
 ```
 
-## 命令详解
+---
 
-### `add` / `create` - 添加 Profile
+## ✨ Features
+
+- **🎯 Interactive & Non-interactive Modes** - Support both guided prompts and CLI arguments
+- **🔐 Secure Local Storage** - JSON-based storage with atomic write operations and automatic backups
+- **🎨 Multi-Provider Support** - Built-in support for OpenAI, Anthropic, Azure, Google, Groq, Ollama, LM Studio, and custom providers
+- **⚙️ Protocol Support** - Support both OpenAI and Anthropic API protocols
+- **📋 Full CRUD Operations** - Complete Create, Read, Update, Delete functionality for profiles
+- **⚡ Default Profile Management** - Quickly switch between different configurations
+- **🛡️ Data Safety** - Automatic backups before destructive operations with backup rotation
+
+---
+
+## 📖 Command Reference
+
+### Global Options
+
+All commands support these global options:
+
+```bash
+--config-dir <path>    # Custom configuration directory
+--no-color            # Disable colored output
+--version, -v         # Show version
+--help, -h            # Show help
+```
+
+### `add` | `create` - Add Profile
+
+Create a new profile with specified configuration.
 
 ```bash
 akm add [options]
 ```
 
-**选项：**
-- `-n, --name <name>` - Profile 名称（必需）
-- `-p, --provider <provider>` - 提供商（如 openai, anthropic）
-- `-u, --base-url <url>` - API 基础 URL
-- `-m, --model <model>` - 默认模型名称
-- `-k, --api-key <key>` - API 密钥
-- `-d, --default` - 设为默认 profile
-- `-f, --force` - 如果存在则覆盖
+**Options:**
+- `-n, --name <name>` - Profile identifier name (required)
+- `-p, --provider <provider>` - Provider (openai, anthropic, azure, google, groq, ollama, lmstudio, custom)
+- `-u, --base-url <url>` - API base URL
+- `-m, --model <model>` - AI Model name (e.g., gpt-4, claude-3-opus)
+- `-k, --api-key <key>` - API authentication key
+- `--protocol <protocol>` - API protocol (openai | anthropic)
+- `-d, --default` - Set as default profile
+- `-f, --force` - Overwrite if exists
+- `-i, --interactive` - Force interactive mode
 
-### `list` / `ls` - 列出 Profiles
+**Examples:**
+```bash
+# Interactive mode
+akm add
+
+# Non-interactive mode
+akm add -n my-openai -p openai -u https://api.openai.com -m gpt-4 -k sk-xxx --protocol openai
+
+# Using Anthropic
+akm add -n my-claude -p anthropic -u https://api.anthropic.com -m claude-3-opus-20240229 -k sk-ant-xxx --protocol anthropic
+```
+
+### `list` | `ls` - List Profiles
+
+Display all configured profiles.
 
 ```bash
 akm list [options]
 ```
 
-**选项：**
-- `-v, --verbose` - 显示详细信息
-- `-p, --provider <provider>` - 按提供商过滤
+**Options:**
+- `-v, --verbose` - Show detailed information including protocol
+- `-p, --provider <provider>` - Filter by provider
 
-### `show` / `get` - 显示 Profile 详情
+**Examples:**
+```bash
+# Simple list
+akm list
+
+# Detailed list with protocol information
+akm list --verbose
+
+# Filter by provider
+akm list --provider openai
+```
+
+### `show` - Show Profile Details
+
+Display detailed information about a specific profile.
 
 ```bash
 akm show <name> [options]
 ```
 
-**选项：**
-- `-j, --json` - 以 JSON 格式输出
+**Options:**
+- `-j, --json` - Output as JSON
 
-### `update` / `edit` - 更新 Profile
+**Examples:**
+```bash
+# Show profile details
+akm show my-openai
+
+# Output as JSON
+akm show my-openai --json
+```
+
+### `update` | `edit` - Update Profile
+
+Modify an existing profile's configuration.
 
 ```bash
 akm update <name> [options]
 ```
 
-**选项：**与 `add` 命令相同
+**Options:** Same as `add` command
 
-### `remove` / `delete` / `rm` - 删除 Profile
+**Examples:**
+```bash
+# Interactive update
+akm update my-openai
+
+# Update specific fields
+akm update my-openai --model gpt-4-turbo
+
+# Update protocol
+akm update my-openai --protocol anthropic
+```
+
+### `remove` | `delete` | `rm` - Remove Profile
+
+Delete a profile from the configuration.
 
 ```bash
 akm remove <name> [options]
 ```
 
-**选项：**
-- `-f, --force` - 跳过确认
+**Options:**
+- `-f, --force` - Skip confirmation
 
-### `default` - 管理默认 Profile
+**Examples:**
+```bash
+# Remove with confirmation
+akm remove my-openai
+
+# Force remove without confirmation
+akm remove my-openai --force
+```
+
+### `default` - Manage Default Profile
+
+Set, show, or clear the default profile.
 
 ```bash
 akm default [name] [options]
 ```
 
-**选项：**
-- `--clear` - 清除默认设置
+**Options:**
+- `--clear` - Clear default setting
 
-## 配置文件
+**Examples:**
+```bash
+# Show current default
+akm default
 
-配置文件存储在：
+# Set default profile
+akm default my-openai
+
+# Clear default
+akm default --clear
+```
+
+---
+
+## 🔧 Configuration
+
+### Configuration Directory
+
+Configuration files are stored in:
+
 - **Linux/macOS**: `~/.config/apikey-manage/`
 - **Windows**: `%APPDATA%\apikey-manage\`
 
-可以通过环境变量 `AKM_CONFIG_DIR` 自定义配置目录。
+Customize using the `AKM_CONFIG_DIR` environment variable.
 
-### 文件结构
+### File Structure
 
 ```
 ~/.config/apikey-manage/
-├── profiles.json     # 存储所有 profile
-├── settings.json     # 应用设置
-└── backups/          # 自动备份
+├── profiles.json     # Profile storage
+├── settings.json     # Application settings
+└── backups/          # Automatic backups
 ```
 
-## 环境变量
+### Environment Variables
 
-- `AKM_CONFIG_DIR` - 自定义配置目录
-- `NO_COLOR` - 禁用颜色输出
+- `AKM_CONFIG_DIR` - Custom configuration directory
+- `NO_COLOR` - Disable colored output
 
-## 开发
+---
+
+## 🛠️ Development
 
 ```bash
-# 克隆仓库
+# Clone repository
 git clone https://github.com/yourusername/apikey-manage.git
 cd apikey-manage
 
-# 安装依赖
+# Install dependencies
 npm install
 
-# 运行测试
+# Run tests
 npm test
 
-# 构建
+# Build project
 npm run build
 
-# 本地运行
+# Run locally
 npm start
 ```
 
-## 贡献
+---
 
-欢迎提交 Issue 和 Pull Request！
+## 🤝 Contributing
 
-## 许可证
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-MIT License
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 🙏 Acknowledgments
+
+- Built with [Commander.js](https://github.com/tj/commander.js/) for CLI framework
+- Interactive prompts powered by [Inquirer](https://github.com/SBoudrias/Inquirer.js/)
+- Terminal styling with [Chalk](https://github.com/chalk/chalk)
+- Schema validation using [Zod](https://github.com/colinhacks/zod)
+
+---
+
+<p align="center">
+  Made with ❤️ by the apikey-manage team
+</p>
