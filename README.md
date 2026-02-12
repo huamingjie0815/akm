@@ -1,6 +1,15 @@
-# apikey-manage
+# API Key Manage (akm)
 
 一个轻量级的 CLI 工具，用于管理大模型 API 的配置信息（profile）。支持添加、查看、更新、删除 profile 配置。
+
+## 功能特性
+
+- ✨ **交互式配置** - 通过友好的交互式提示快速创建 profile
+- 🔐 **安全存储** - 本地 JSON 文件存储，支持可选的 API Key 加密
+- 🎨 **多提供商支持** - OpenAI、Anthropic、Azure、Google、Groq 及自定义提供商
+- 📋 **完整 CRUD** - 创建、读取、更新、删除 profiles
+- ⚡ **快速切换** - 设置默认 profile，快速切换不同配置
+- 🛡️ **自动备份** - 修改前自动创建备份，防止数据丢失
 
 ## 安装
 
@@ -13,8 +22,8 @@ npm install -g apikey-manage
 ## 快速开始
 
 ```bash
-# 添加一个新的 profile
-akm add --name my-openai --provider openai --base-url https://api.openai.com --model gpt-4 --api-key sk-xxx
+# 添加一个新的 profile（交互式）
+akm add
 
 # 列出所有 profiles
 akm list
@@ -40,7 +49,7 @@ akm remove my-openai
 akm add [options]
 ```
 
-选项：
+**选项：**
 - `-n, --name <name>` - Profile 名称（必需）
 - `-p, --provider <provider>` - 提供商（如 openai, anthropic）
 - `-u, --base-url <url>` - API 基础 URL
@@ -55,7 +64,7 @@ akm add [options]
 akm list [options]
 ```
 
-选项：
+**选项：**
 - `-v, --verbose` - 显示详细信息
 - `-p, --provider <provider>` - 按提供商过滤
 
@@ -65,7 +74,7 @@ akm list [options]
 akm show <name> [options]
 ```
 
-选项：
+**选项：**
 - `-j, --json` - 以 JSON 格式输出
 
 ### `update` / `edit` - 更新 Profile
@@ -74,7 +83,7 @@ akm show <name> [options]
 akm update <name> [options]
 ```
 
-选项：与 `add` 命令相同
+**选项：**与 `add` 命令相同
 
 ### `remove` / `delete` / `rm` - 删除 Profile
 
@@ -82,7 +91,7 @@ akm update <name> [options]
 akm remove <name> [options]
 ```
 
-选项：
+**选项：**
 - `-f, --force` - 跳过确认
 
 ### `default` - 管理默认 Profile
@@ -91,7 +100,7 @@ akm remove <name> [options]
 akm default [name] [options]
 ```
 
-选项：
+**选项：**
 - `--clear` - 清除默认设置
 
 ## 配置文件
@@ -116,6 +125,30 @@ akm default [name] [options]
 - `AKM_CONFIG_DIR` - 自定义配置目录
 - `NO_COLOR` - 禁用颜色输出
 
-## License
+## 开发
 
-MIT
+```bash
+# 克隆仓库
+git clone https://github.com/yourusername/apikey-manage.git
+cd apikey-manage
+
+# 安装依赖
+npm install
+
+# 运行测试
+npm test
+
+# 构建
+npm run build
+
+# 本地运行
+npm start
+```
+
+## 贡献
+
+欢迎提交 Issue 和 Pull Request！
+
+## 许可证
+
+MIT License
