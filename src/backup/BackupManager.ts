@@ -5,7 +5,7 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
-import { getBackupsDir, ensureConfigDir } from '../config/paths';
+import { getBackupsDir } from '../config/paths';
 import { loadSettings } from '../config/settings';
 import { ProfileStorageData } from '../types/profile';
 
@@ -98,7 +98,7 @@ export class BackupManager {
     for (const backup of toDelete) {
       try {
         fs.unlinkSync(backup.path);
-      } catch (error) {
+      } catch {
         console.warn(`Failed to delete old backup: ${backup.filename}`);
       }
     }
@@ -131,7 +131,7 @@ export class BackupManager {
           size: stat.size,
           profileCount: data.profiles?.length || 0,
         });
-      } catch (error) {
+      } catch {
         // Skip invalid backup files
         console.warn(`Skipping invalid backup file: ${filename}`);
       }

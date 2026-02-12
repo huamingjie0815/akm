@@ -19,7 +19,10 @@ import { removeCommand } from './commands/remove';
 import { defaultCommand } from './commands/default';
 
 // Read package.json for version
-const packageJson = require('../../package.json');
+import * as fs from 'fs';
+import * as path from 'path';
+const packageJsonPath = path.join(__dirname, '../../package.json');
+const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
 
 export function run(): void {
   // Ensure config directory exists
